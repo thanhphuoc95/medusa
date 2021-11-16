@@ -57,6 +57,8 @@ export default async (req, res) => {
     limit: Validator.number().default(20),
     offset: Validator.number().default(0),
     q: Validator.string(),
+    created_at: Validator.dateFilter(),
+    update_at: Validator.dateFilter(),
     tags: Validator.array().items(Validator.string()),
     order: Validator.string()
       .valid(
@@ -97,7 +99,7 @@ export default async (req, res) => {
     [order.replace("-", "")]: order[0] === "-" ? "DESC" : "ASC",
   }
 
-  const collections = await collectionService.list(selector, listConfig)
+  const collections = await collectionService.listAndCount(selector, listConfig)
 
   res.json({
     collections,
