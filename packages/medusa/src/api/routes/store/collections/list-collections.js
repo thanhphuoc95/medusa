@@ -99,11 +99,14 @@ export default async (req, res) => {
     [order.replace("-", "")]: order[0] === "-" ? "DESC" : "ASC",
   }
 
-  const collections = await collectionService.listAndCount(selector, listConfig)
+  const [collections, count] = await collectionService.listAndCount(
+    selector,
+    listConfig
+  )
 
   res.json({
     collections,
-    count: collections.length,
+    count,
     offset: value.offset,
     limit: value.limit,
   })
